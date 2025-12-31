@@ -5,7 +5,8 @@ tags:
 date: 2025-12-20
 Tagline: This article addresses some recent comments by Robert kennedy
 ---
-**Hello
+**![[self picture retirement.jpg]]
+Hello
 
 *Lorem Ipsum*
 
