@@ -1,0 +1,362 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= BASE ================= */
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  border-bottom: 1px solid #e0e0e0;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 95px;
+  width: auto;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.navbar-right a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.navbar-right a:hover {
+  color: #bb271a;
+}
+
+.navbar-right a.active {
+  color: #bb271a;
+}
+
+/* ================= NAV DROPDOWNS ================= */
+.nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-item > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f5f5f5;
+  min-width: 260px;
+  padding: 18px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 2000;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 26px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.dropdown a:hover {
+  background-color: #eaeaea;
+  color: #bb271a;
+}
+
+.dropdown-loading {
+  padding: 10px 26px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #000000;
+}
+
+.nav-item:hover .dropdown {
+  display: block;
+}
+
+/* ================= HERO ================= */
+.hero {
+  margin-top: 120px;
+  background-color: #bb271a;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  padding-left: 80px;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: 64px;
+  font-weight: 700;
+}
+
+/* ================= PAGE CONTENT ================= */
+.page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ================= ABOUT ================= */
+.about-section {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.about-photo img {
+  width: 280px;
+  height: auto;
+  background-color: #e0e0e0;
+  border: 2px solid #000000;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.about-text h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 30px;
+}
+
+/* ================= BUTTON ================= */
+.detail-button {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #bb271a;
+  border: 2px solid #bb271a;
+  transition: all 0.25s ease;
+}
+
+.detail-button:hover {
+  background-color: #ffffff;
+  color: #bb271a;
+}
+
+/* ================= BOOKS ================= */
+.books-section {
+  background-color: #f5f5f5;
+  padding: 100px 40px;
+}
+
+.books-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.book-card {
+  background-color: #ffffff;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.book-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.book-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.book-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.book-card a {
+  margin-top: auto;
+  font-weight: 700;
+  text-decoration: none;
+  color: #bb271a;
+  border-bottom: 2px solid transparent;
+  transition: border 0.2s ease;
+}
+
+.book-card a:hover {
+  border-bottom: 2px solid #bb271a;
+}
+
+/* ================= POETRY PAGE ================= */
+.poetry-header {
+  margin-top: 120px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 80px;
+}
+
+.poetry-header h1 {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 700;
+}
+
+.recent-work {
+  background-color: #f5f5f5;
+  padding: 50px 80px;
+}
+
+.recent-work h2 {
+  margin-top: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.recent-work a {
+  color: #bb271a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.recent-work a:hover {
+  text-decoration: underline;
+}
+
+.selected-poetry-title {
+  margin: 80px 80px 40px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #bb271a;
+  text-decoration: underline;
+}
+
+.poem-entry {
+  display: flex;
+  gap: 40px;
+  padding: 40px 80px;
+  align-items: center;
+}
+
+.poem-entry img {
+  width: 200px;
+  height: auto;
+  background-color: #e0e0e0;
+  border: 2px solid #000000;
+}
+
+.poem-text h3 {
+  margin: 0 0 15px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.poem-text a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.poem-text a:hover {
+  color: #bb271a;
+}
+
+.poem-text p {
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.divider {
+  height: 1px;
+  background-color: #000000;
+  margin: 0 80px;
+}
+
+/* ================= PHOTOS / GALLERY ================= */
+.gallery-wrapper {
+  max-width: 1200px;
+  margin: 160px auto 100px;
+  padding: 0 40px;
+}
+
+.filter-container {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.filter-button {
+  background: #bb271a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-panel label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.photo-tile {
+  background-color: #e0e0e0;
+  border: 2px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 40px 60px;
+  font-size: 18px;
+}

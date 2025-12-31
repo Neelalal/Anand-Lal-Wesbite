@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Poetry | Anand Lal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="navbar-left">
+    <a href="index.html" class="logo">
+      <img src="Attachments/logo.jpg" alt="Anand Lal Logo">
+    </a>
+  </div>
+
+  <nav class="navbar-right">
+    <a href="index.html" class="">Home</a>
+    <a href="about.html" class="">About Me</a>
+
+    <div class="nav-item">
+      <a href="poetry.html" class="active">Poetry ▾</a>
+      <div class="dropdown" id="poetryDropdown">
+        <a href="poems/poem1.html">Poem Title One</a>
+        <a href="poems/poem2.html">Poem Title Two</a>
+        <a href="poems/poem3.html">Poem Title Three</a>
+        <a href="poems/poem4.html">Poem Title Four</a>
+        <a href="poems/poem5.html">Poem Title Five</a>
+      </div>
+    </div>
+
+    <a href="photos.html" class="">Photos</a>
+
+    <div class="nav-item">
+      <a href="blog.html" class="">Blog ▾</a>
+      <div class="dropdown" id="blogDropdown">
+        <div class="dropdown-loading">Loading…</div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HEADER ================= -->
+<section class="poetry-header">
+  <h1>Selected Poetry</h1>
+</section>
+
+<!-- ================= RECENT WORK ================= -->
+<section class="recent-work">
+  <h2>Recent Work</h2>
+  <p>
+    My latest collection is available on Amazon.
+    <a href="https://www.amazon.com/" target="_blank" rel="noopener">View on Amazon →</a>
+  </p>
+</section>
+
+<!-- ================= SELECTED POETRY ================= -->
+<h2 class="selected-poetry-title">Selected Poetry</h2>
+
+<!-- POEM 1 -->
+<div class="poem-entry">
+  <img src="Attachments/poetry/poem1.jpg" alt="Poem 1">
+  <div class="poem-text">
+    <h3><a href="poems/poem1.html">Poem Title One</a></h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor.
+    </p>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- POEM 2 -->
+<div class="poem-entry">
+  <img src="Attachments/poetry/poem2.jpg" alt="Poem 2">
+  <div class="poem-text">
+    <h3><a href="poems/poem2.html">Poem Title Two</a></h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor.
+    </p>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- POEM 3 -->
+<div class="poem-entry">
+  <img src="Attachments/poetry/poem3.jpg" alt="Poem 3">
+  <div class="poem-text">
+    <h3><a href="poems/poem3.html">Poem Title Three</a></h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor.
+    </p>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- POEM 4 -->
+<div class="poem-entry">
+  <img src="Attachments/poetry/poem4.jpg" alt="Poem 4">
+  <div class="poem-text">
+    <h3><a href="poems/poem4.html">Poem Title Four</a></h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor.
+    </p>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- POEM 5 -->
+<div class="poem-entry">
+  <img src="Attachments/poetry/poem5.jpg" alt="Poem 5">
+  <div class="poem-text">
+    <h3><a href="poems/poem5.html">Poem Title Five</a></h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor.
+    </p>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  © 2026 Anand Lal. All rights reserved.
+</footer>
+
+<!-- Optional: Blog dropdown auto-populate from blogs/generated/blog.json -->
+<script>
+(function () {
+  const blogDropdown = document.getElementById("blogDropdown");
+  if (!blogDropdown) return;
+
+  fetch("blogs/generated/blog.json")
+    .then(r => r.json())
+    .then(posts => {
+      const tagSet = new Set();
+      posts.forEach(p => (p.tags_raw || p.tags || []).forEach(t => tagSet.add(String(t))));
+      const tags = Array.from(tagSet).sort((a,b)=>a.localeCompare(b));
+      blogDropdown.innerHTML = "";
+
+      tags.forEach(t => {
+        const pretty = t.replace(/_/g, " ").trim();
+        const slug = pretty.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+        const a = document.createElement("a");
+        a.href = `blogs/tags/${slug}.html`;
+        a.textContent = pretty;
+        blogDropdown.appendChild(a);
+      });
+
+      if (!tags.length) blogDropdown.innerHTML = '<div class="dropdown-loading">No categories yet</div>';
+    })
+    .catch(() => {
+      blogDropdown.innerHTML = '<div class="dropdown-loading">Categories unavailable</div>';
+    });
+})();
+</script>
+
+</body>
+</html>

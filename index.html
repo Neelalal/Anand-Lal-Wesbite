@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anand Lal</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="navbar-left">
+    <a href="index.html" class="logo">
+      <img src="Attachments/logo.jpg" alt="Anand Lal Logo">
+    </a>
+  </div>
+
+  <nav class="navbar-right">
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html" class="">About Me</a>
+
+    <div class="nav-item">
+      <a href="poetry.html" class="">Poetry ▾</a>
+      <div class="dropdown" id="poetryDropdown">
+        <a href="poems/poem1.html">Poem Title One</a>
+        <a href="poems/poem2.html">Poem Title Two</a>
+        <a href="poems/poem3.html">Poem Title Three</a>
+        <a href="poems/poem4.html">Poem Title Four</a>
+        <a href="poems/poem5.html">Poem Title Five</a>
+      </div>
+    </div>
+
+    <a href="photos.html" class="">Photos</a>
+
+    <div class="nav-item">
+      <a href="blog.html" class="">Blog ▾</a>
+      <div class="dropdown" id="blogDropdown">
+        <div class="dropdown-loading">Loading…</div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <h1>Welcome</h1>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<main class="page-content">
+  <section class="about-section">
+    <div class="about-photo">
+      <img src="Attachments/profile_photo.jpg" alt="Profile Photo">
+    </div>
+
+    <div class="about-text">
+      <h2>About Anand Lal</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+
+      <a href="about.html" class="detail-button">More Detail</a>
+    </div>
+  </section>
+</main>
+
+<!-- ================= BOOKS ================= -->
+<section class="books-section">
+  <div class="books-container">
+
+    <div class="book-card">
+      <img src="Attachments/book1.jpg" alt="Book 1">
+      <h3>Book Title One</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <a href="https://www.amazon.com/" target="_blank" rel="noopener">View on Amazon</a>
+    </div>
+
+    <div class="book-card">
+      <img src="Attachments/book2.jpg" alt="Book 2">
+      <h3>Book Title Two</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <a href="https://www.amazon.com/" target="_blank" rel="noopener">View on Amazon</a>
+    </div>
+
+    <div class="book-card">
+      <img src="Attachments/book3.jpg" alt="Book 3">
+      <h3>Book Title Three</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <a href="https://www.amazon.com/" target="_blank" rel="noopener">View on Amazon</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  © 2026 Anand Lal. All rights reserved.
+</footer>
+
+<script>
+(function () {
+  const blogDropdown = document.getElementById("blogDropdown");
+  if (!blogDropdown) return;
+
+  fetch("blogs/generated/blog.json")
+    .then(r => r.json())
+    .then(posts => {
+      const tagSet = new Set();
+      posts.forEach(p => (p.tags_raw || p.tags || []).forEach(t => tagSet.add(String(t))));
+      const tags = Array.from(tagSet).sort((a,b)=>a.localeCompare(b));
+      blogDropdown.innerHTML = "";
+
+      tags.forEach(t => {
+        const pretty = t.replace(/_/g, " ").trim();
+        const slug = pretty.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+        const a = document.createElement("a");
+        a.href = `blogs/tags/${slug}.html`;
+        a.textContent = pretty;
+        blogDropdown.appendChild(a);
+      });
+
+      if (!tags.length) blogDropdown.innerHTML = '<div class="dropdown-loading">No categories yet</div>';
+    })
+    .catch(() => {
+      blogDropdown.innerHTML = '<div class="dropdown-loading">Categories unavailable</div>';
+    });
+})();
+</script>
+
+</body>
+</html>

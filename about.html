@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Me | Anand Lal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="navbar-left">
+    <a href="index.html" class="logo">
+      <img src="Attachments/logo.jpg" alt="Anand Lal Logo">
+    </a>
+  </div>
+
+  <nav class="navbar-right">
+    <a href="index.html" class="">Home</a>
+    <a href="about.html" class="active">About Me</a>
+
+    <div class="nav-item">
+      <a href="poetry.html" class="">Poetry ▾</a>
+      <div class="dropdown" id="poetryDropdown">
+        <a href="poems/poem1.html">Poem Title One</a>
+        <a href="poems/poem2.html">Poem Title Two</a>
+        <a href="poems/poem3.html">Poem Title Three</a>
+        <a href="poems/poem4.html">Poem Title Four</a>
+        <a href="poems/poem5.html">Poem Title Five</a>
+      </div>
+    </div>
+
+    <a href="photos.html" class="">Photos</a>
+
+    <div class="nav-item">
+      <a href="blog.html" class="">Blog ▾</a>
+      <div class="dropdown" id="blogDropdown">
+        <div class="dropdown-loading">Loading…</div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= BANNER ================= -->
+<section style="margin-top: 120px; background-color: #f5f5f5; padding: 70px 80px;">
+  <h1 style="margin: 0; font-size: 52px; font-weight: 700; color: #bb271a;">
+    Biography
+  </h1>
+</section>
+
+<!-- ================= PAGE CONTENT ================= -->
+<main class="page-content">
+
+  <section class="about-section">
+    <div class="about-photo">
+      <img src="Attachments/profile_photo.jpg" alt="Anand Lal">
+    </div>
+
+    <div class="about-text">
+      <h2>Hi, I’m Anand.</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+        Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+        ultricies sed, dolor. Cras elementum ultrices diam.
+      </p>
+    </div>
+  </section>
+
+  <section style="margin-top: 80px; max-width: 800px;">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+      Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,
+      ultricies sed, dolor. Cras elementum ultrices diam.
+    </p>
+    <p>
+      Maecenas ligula massa, varius a, semper congue, euismod non, mi.
+      Proin porttitor, orci nec nonummy molestie, enim est eleifend mi,
+      non fermentum diam nisl sit amet erat.
+    </p>
+    <p>
+      Duis semper. Duis arcu massa, scelerisque vitae, consequat in,
+      pretium a, enim. Pellentesque congue. Ut in risus volutpat libero
+      pharetra tempor.
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  © 2026 Anand Lal. All rights reserved.
+</footer>
+
+<script>
+(function () {
+  const blogDropdown = document.getElementById("blogDropdown");
+  if (!blogDropdown) return;
+
+  fetch("blogs/generated/blog.json")
+    .then(r => r.json())
+    .then(posts => {
+      const tagSet = new Set();
+      posts.forEach(p => (p.tags_raw || p.tags || []).forEach(t => tagSet.add(String(t))));
+      const tags = Array.from(tagSet).sort((a,b)=>a.localeCompare(b));
+      blogDropdown.innerHTML = "";
+
+      tags.forEach(t => {
+        const pretty = t.replace(/_/g, " ").trim();
+        const slug = pretty.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+        const a = document.createElement("a");
+        a.href = `blogs/tags/${slug}.html`;
+        a.textContent = pretty;
+        blogDropdown.appendChild(a);
+      });
+
+      if (!tags.length) blogDropdown.innerHTML = '<div class="dropdown-loading">No categories yet</div>';
+    })
+    .catch(() => {
+      blogDropdown.innerHTML = '<div class="dropdown-loading">Categories unavailable</div>';
+    });
+})();
+</script>
+
+</body>
+</html>

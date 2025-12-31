@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photos | Anand Lal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="static/style.css">
+
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 220px);
+      gap: 20px;
+    }
+
+    .gallery-area {
+      position: relative;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .left-arrow { left: -60px; }
+    .right-arrow { right: -60px; }
+
+    .filter-panel {
+      display: none;
+      position: absolute;
+      background: white;
+      padding: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="navbar-left">
+    <a href="index.html" class="logo">
+      <img src="Attachments/logo.jpg" alt="Anand Lal Logo">
+    </a>
+  </div>
+
+  <nav class="navbar-right">
+    <a href="index.html" class="">Home</a>
+    <a href="about.html" class="">About Me</a>
+
+    <div class="nav-item">
+      <a href="poetry.html" class="">Poetry ▾</a>
+      <div class="dropdown" id="poetryDropdown">
+        <a href="poems/poem1.html">Poem Title One</a>
+        <a href="poems/poem2.html">Poem Title Two</a>
+        <a href="poems/poem3.html">Poem Title Three</a>
+        <a href="poems/poem4.html">Poem Title Four</a>
+        <a href="poems/poem5.html">Poem Title Five</a>
+      </div>
+    </div>
+
+    <a href="photos.html" class="active">Photos</a>
+
+    <div class="nav-item">
+      <a href="blog.html" class="">Blog ▾</a>
+      <div class="dropdown" id="blogDropdown">
+        <div class="dropdown-loading">Loading…</div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="gallery-wrapper">
+
+  <div class="filter-container">
+    <button class="filter-button" type="button">Filter ▾</button>
+    <div class="filter-panel" id="filterPanel"></div>
+  </div>
+
+  <div class="gallery-area">
+    <div class="arrow left-arrow">&#9664;</div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="arrow right-arrow">&#9654;</div>
+  </div>
+
+</section>
+
+<footer class="site-footer">
+  © 2026 Anand Lal. All rights reserved.
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const PAGE_SIZE = 6;
+  let pageIndex = 0;
+  let photos = [];
+  let activeFolders = new Set();
+
+  const grid = document.getElementById("galleryGrid");
+  const filterPanel = document.getElementById("filterPanel");
+  const filterButton = document.querySelector(".filter-button");
+
+  // IMPORTANT: this assumes you have generated this json:
+  // Attachments/photos/photos.json
+  const response = await fetch("Attachments/photos/photos.json");
+  const photoFolders = await response.json();
+
+  activeFolders = new Set(Object.keys(photoFolders));
+
+  function rebuildPhotos() {
+    photos = [];
+    activeFolders.forEach(folder => {
+      photoFolders[folder].forEach(file => {
+        photos.push(`Attachments/photos/${folder}/${file}`);
+      });
+    });
+  }
+
+  function renderGrid() {
+    grid.innerHTML = "";
+    const slice = photos.slice(pageIndex * PAGE_SIZE, pageIndex * PAGE_SIZE + PAGE_SIZE);
+
+    slice.forEach(src => {
+      const tile = document.createElement("div");
+      tile.className = "photo-tile";
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "Photo";
+      tile.appendChild(img);
+
+      grid.appendChild(tile);
+    });
+  }
+
+  function totalPages() {
+    const t = Math.ceil(photos.length / PAGE_SIZE);
+    return Math.max(1, t);
+  }
+
+  function buildFilter() {
+    filterPanel.innerHTML = "";
+
+    Object.keys(photoFolders).forEach(folder => {
+      const label = document.createElement("label");
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+
+      cb.onchange = () => {
+        // must keep at least one checked
+        if (!cb.checked && activeFolders.size === 1) {
+          cb.checked = true;
+          return;
+        }
+
+        cb.checked ? activeFolders.add(folder) : activeFolders.delete(folder);
+        pageIndex = 0;
+        rebuildPhotos();
+        renderGrid();
+      };
+
+      label.appendChild(cb);
+      label.append(" " + folder);
+      filterPanel.appendChild(label);
+    });
+  }
+
+  // Filter toggle that does NOT auto-close while scrolling inside the panel
+  filterButton.onclick = (e) => {
+    e.stopPropagation();
+    filterPanel.style.display = (filterPanel.style.display === "block") ? "none" : "block";
+  };
+  filterPanel.onclick = (e) => e.stopPropagation();
+  document.addEventListener("click", () => { filterPanel.style.display = "none"; });
+
+  // Wrap-around arrows
+  document.querySelector(".left-arrow").onclick = () => {
+    pageIndex = (pageIndex - 1 + totalPages()) % totalPages();
+    renderGrid();
+  };
+
+  document.querySelector(".right-arrow").onclick = () => {
+    pageIndex = (pageIndex + 1) % totalPages();
+    renderGrid();
+  };
+
+  // INIT
+  buildFilter();
+  rebuildPhotos();
+  renderGrid();
+
+});
+</script>
+
+<script>
+(function () {
+  const blogDropdown = document.getElementById("blogDropdown");
+  if (!blogDropdown) return;
+
+  fetch("blogs/generated/blog.json")
+    .then(r => r.json())
+    .then(posts => {
+      const tagSet = new Set();
+      posts.forEach(p => (p.tags_raw || p.tags || []).forEach(t => tagSet.add(String(t))));
+      const tags = Array.from(tagSet).sort((a,b)=>a.localeCompare(b));
+      blogDropdown.innerHTML = "";
+
+      tags.forEach(t => {
+        const pretty = t.replace(/_/g, " ").trim();
+        const slug = pretty.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+        const a = document.createElement("a");
+        a.href = `blogs/tags/${slug}.html`;
+        a.textContent = pretty;
+        blogDropdown.appendChild(a);
+      });
+
+      if (!tags.length) blogDropdown.innerHTML = '<div class="dropdown-loading">No categories yet</div>';
+    })
+    .catch(() => {
+      blogDropdown.innerHTML = '<div class="dropdown-loading">Categories unavailable</div>';
+    });
+})();
+</script>
+
+</body>
+</html>

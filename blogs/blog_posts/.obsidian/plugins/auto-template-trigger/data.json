@@ -1,0 +1,10 @@
+{
+  "folderSpecificTemplates": [
+    {
+      "folderPath": "/",
+      "templateName": "New Blog Post"
+    }
+  ],
+  "disablePrompt": false,
+  "debug": false
+}
